@@ -71,6 +71,19 @@
 
 <script>
     export default {
+        data(){
+            return{
+                dni:'',
+                form: new Form({
+                    id: '',
+                    first_name : '',
+                    second_name: '',
+                    first_last_name: '',
+                    second_last_name: '',
+                    dni: '',
+                })
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }
