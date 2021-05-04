@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+class CreateAreasRolTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('areas_rol', function (Blueprint $table) {
             $table->increments('id');
-            $table->char('dni',8)->unique();
-            $table->string('first_name');
-            $table->string('second_name');
-            $table->string('first_last_name');
-            $table->string('second_last_name');
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('name');
+            $table->unsignedInteger('id_area');
+            $table->foreign('id_area')->references('id')->on('areas');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +30,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('areas_rol');
     }
 }
