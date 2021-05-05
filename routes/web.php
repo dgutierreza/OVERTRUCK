@@ -16,4 +16,7 @@ Route::get('/', function () {
 });
 
 Route::get('/admin','AdminController@admin')->name('admin');
-Route::get('{path}','AdminController@admin')->where('path', '([A-z\d\-\/_.]+)' );
+//Route::get('{path}','AdminController@admin')->where('path', '([A-z\d\-\/_.]+)' );
+
+Route::get('users', 'Api\UserController@getRecords');
+

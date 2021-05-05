@@ -11,9 +11,12 @@ window.Vue = require('vue');
 /** VUE FORM */
 import { Form, HasError, AlertError } from 'vform';
 window.Form = Form;
-Vue.component(HasError.name, HasError)
-Vue.component(AlertError.name, AlertError)
+// Vue.component(HasError.name, HasError)
+// Vue.component(AlertError.name, AlertError)
 /** END VUE FORM */
+
+// * vuex
+import store from './store/index';
 
 /** VUE ROUTER */
 import VueRouter from 'vue-router';
@@ -27,6 +30,7 @@ let routes = [
     { path: '/list-user', component: require('./users/List.vue')},
     { path: '*', component: require('./others/NotFound.vue') }
   ]
+
 const router = new VueRouter({
 	mode: 'history',
     routes // short for `routes: routes`
@@ -43,5 +47,6 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    store
 });
