@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('search-dni/{dni}','API\UserController@search_dni');
+Route::get('users','API\UserController@index');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
