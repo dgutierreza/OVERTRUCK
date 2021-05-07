@@ -43,5 +43,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    methods:{
+      firstUpperCase(string){
+        return string.charAt(0).toUpperCase() + string.slice(1);
+                },
+    }
 });

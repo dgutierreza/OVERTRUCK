@@ -14629,7 +14629,12 @@ Vue.component('example-component', __webpack_require__(50));
 
 var app = new Vue({
   el: '#app',
-  router: router
+  router: router,
+  methods: {
+    firstUpperCase: function firstUpperCase(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+  }
 });
 
 /***/ }),
@@ -53945,11 +53950,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       dni: "",
+      users: {},
       form: new Form({
         id: "",
         first_name: "",
@@ -53962,38 +53970,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    searchDni: function searchDni() {
+    loadUsers: function loadUsers() {
       var _this = this;
 
-      axios.get("api/search-dni/" + this.dni).then(function (_ref) {
+      axios.get("api/users").then(function (_ref) {
         var data = _ref.data;
+        return _this.users = data;
+      });
+    },
+    newModal: function newModal() {
+      $("#form_add_user").find('.is-invalid').removeClass("is-invalid");
+      this.dni = '';
+      this.form.reset();
+    },
+    searchDni: function searchDni() {
+      var _this2 = this;
+
+      axios.get("api/search-dni/" + this.dni).then(function (_ref2) {
+        var data = _ref2.data;
 
         console.log(data);
         var names = data.nombres.toLowerCase().split(" ", 3);
-        var first_last_name = data.apellidoPaterno.toLowerCase();
-        var second_last_name = data.apellidoMaterno.toLowerCase();
+        var first_last_name = _this2.$parent.firstUpperCase(data.apellidoPaterno.toLowerCase());
+        var second_last_name = _this2.$parent.firstUpperCase(data.apellidoMaterno.toLowerCase());
         if (names.length == 3) {
-          var first_name = names[0];
-          var second_name = names[1];
-          var third_name = names[2];
-          var seconds_name = second_name + ' ' + third_name;
+          var first_name = _this2.$parent.firstUpperCase(names[0]);
+          var second_name = _this2.$parent.firstUpperCase(names[1]);
+          var third_name = _this2.$parent.firstUpperCase(names[2]);
+          var seconds_name = _this2.$parent.firstUpperCase(second_name + ' ' + third_name);
         }
         if (names.length == 2) {
-          var first_name = names[0];
-          var seconds_name = names[1];
+          var first_name = _this2.$parent.firstUpperCase(names[0]);
+          var seconds_name = _this2.$parent.firstUpperCase(names[1]);
         }
         if (names.length == 1) {
-          var first_name = names[0];
+          var first_name = _this2.$parent.firstUpperCase(names[0]);
           var seconds_name = '';
         }
 
-        _this.form.first_name = first_name;
-        _this.form.second_name = seconds_name;
-        _this.form.first_last_name = first_last_name;
-        _this.form.second_last_name = second_last_name;
-        _this.form.dni = data.dni;
+        _this2.form.first_name = first_name;
+        _this2.form.second_name = seconds_name;
+        _this2.form.first_last_name = first_last_name;
+        _this2.form.second_last_name = second_last_name;
+        _this2.form.dni = data.dni;
       });
+    },
+    createUser: function createUser() {
+      var _this3 = this;
+
+      this.form.post('api/users').then(function () {
+        _this3.dni = '';
+        _this3.form.reset();
+        $('#addNew').modal('hide');
+      }).catch(function () {});
     }
+  },
+  created: function created() {
+    this.loadUsers();
   },
   mounted: function mounted() {
     console.log("Component mounted.");
@@ -54009,7 +54042,56 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12 mt-3" }, [
+        _c("div", { staticClass: "card" }, [
+          _c("div", { staticClass: "card-header" }, [
+            _c("h3", { staticClass: "card-title" }, [
+              _vm._v("Lista de Usuarios")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-tools" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-success",
+                  attrs: { "data-toggle": "modal", "data-target": "#addNew" },
+                  on: { click: _vm.newModal }
+                },
+                [
+                  _vm._v("\n              Agregar Usuario "),
+                  _c("i", { staticClass: "fas fa-user-plus" })
+                ]
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "card-body table-responsive p-0" }, [
+            _c("table", { staticClass: "table table-hover" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.users, function(user) {
+                  return _c("tr", { key: user.id }, [
+                    _c("td", [_vm._v(_vm._s(user.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(user.name_complete))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(user.dni))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(user.created_at))]),
+                    _vm._v(" "),
+                    _vm._m(1, true)
+                  ])
+                }),
+                0
+              )
+            ])
+          ])
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -54032,76 +54114,14 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(1),
+              _vm._m(2),
               _vm._v(" "),
-              _c(
-                "form",
-                {
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return _vm.createUser()
-                    }
-                  }
-                },
-                [
-                  _c("div", { staticClass: "modal-body" }, [
-                    _c(
-                      "div",
-                      { staticClass: "form-group" },
-                      [
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: _vm.dni,
-                              expression: "dni"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: { "is-invalid": _vm.form.errors.has("dni") },
-                          attrs: {
-                            type: "text",
-                            name: "dni",
-                            placeholder: "Ingresa su DNI"
-                          },
-                          domProps: { value: _vm.dni },
-                          on: {
-                            keyup: function($event) {
-                              if (
-                                !$event.type.indexOf("key") &&
-                                _vm._k(
-                                  $event.keyCode,
-                                  "enter",
-                                  13,
-                                  $event.key,
-                                  "Enter"
-                                )
-                              ) {
-                                return null
-                              }
-                              return _vm.searchDni($event)
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.dni = $event.target.value
-                            }
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("has-error", {
-                          attrs: { form: _vm.form, field: "dni" }
-                        })
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
+              _c("form", { attrs: { id: "form_add_user" } }, [
+                _c("div", { staticClass: "modal-body" }, [
+                  _c(
+                    "div",
+                    { staticClass: "form-group" },
+                    [
                       _vm._m(3),
                       _vm._v(" "),
                       _c("input", {
@@ -54109,142 +54129,208 @@ var render = function() {
                           {
                             name: "model",
                             rawName: "v-model",
-                            value: _vm.form.first_name,
-                            expression: "form.first_name"
+                            value: _vm.dni,
+                            expression: "dni"
                           }
                         ],
                         staticClass: "form-control",
+                        class: { "is-invalid": _vm.form.errors.has("dni") },
                         attrs: {
                           type: "text",
-                          name: "first_name",
-                          placeholder: "...",
-                          disabled: ""
+                          name: "dni",
+                          placeholder: "Ingresa su DNI"
                         },
-                        domProps: { value: _vm.form.first_name },
+                        domProps: { value: _vm.dni },
                         on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.searchDni($event)
+                          },
                           input: function($event) {
                             if ($event.target.composing) {
                               return
                             }
-                            _vm.$set(
-                              _vm.form,
-                              "first_name",
-                              $event.target.value
-                            )
+                            _vm.dni = $event.target.value
                           }
                         }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(4),
+                      }),
                       _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.second_name,
-                            expression: "form.second_name"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "second_name",
-                          placeholder: "...",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.form.second_name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.form,
-                              "second_name",
-                              $event.target.value
-                            )
-                          }
-                        }
+                      _c("has-error", {
+                        attrs: { form: _vm.form, field: "dni" }
                       })
-                    ]),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _vm._m(4),
                     _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(5),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.first_last_name,
-                            expression: "form.first_last_name"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "first_last_name",
-                          placeholder: "...",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.form.first_last_name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.form,
-                              "first_last_name",
-                              $event.target.value
-                            )
-                          }
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.first_name,
+                          expression: "form.first_name"
                         }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(6),
-                      _vm._v(" "),
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.form.second_last_name,
-                            expression: "form.second_last_name"
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "first_name",
+                        placeholder: "...",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.form.first_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
                           }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          name: "second_last_name",
-                          placeholder: "...",
-                          disabled: ""
-                        },
-                        domProps: { value: _vm.form.second_last_name },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(
-                              _vm.form,
-                              "second_last_name",
-                              $event.target.value
-                            )
-                          }
+                          _vm.$set(_vm.form, "first_name", $event.target.value)
                         }
-                      })
-                    ])
+                      }
+                    })
                   ]),
                   _vm._v(" "),
-                  _vm._m(7)
-                ]
-              )
+                  _c("div", { staticClass: "form-group" }, [
+                    _vm._m(5),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.second_name,
+                          expression: "form.second_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "second_name",
+                        placeholder: "...",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.form.second_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "second_name", $event.target.value)
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _vm._m(6),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.first_last_name,
+                          expression: "form.first_last_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "first_last_name",
+                        placeholder: "...",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.form.first_last_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "first_last_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "form-group" }, [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.second_last_name,
+                          expression: "form.second_last_name"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      attrs: {
+                        type: "text",
+                        name: "second_last_name",
+                        placeholder: "...",
+                        disabled: ""
+                      },
+                      domProps: { value: _vm.form.second_last_name },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(
+                            _vm.form,
+                            "second_last_name",
+                            $event.target.value
+                          )
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "modal-footer" }, [
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-danger",
+                      attrs: { type: "button", "data-dismiss": "modal" }
+                    },
+                    [_vm._v("\n              Cerrar\n            ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-primary",
+                      attrs: { type: "button" },
+                      on: {
+                        click: function($event) {
+                          return _vm.createUser()
+                        }
+                      }
+                    },
+                    [_vm._v("Guardar")]
+                  )
+                ])
+              ])
             ])
           ]
         )
@@ -54257,65 +54343,31 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12 mt-3" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _c("h3", { staticClass: "card-title" }, [
-              _vm._v("Lista de Usuarios")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-tools" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-success",
-                  attrs: { "data-toggle": "modal", "data-target": "#addNew" }
-                },
-                [
-                  _vm._v("\n              Agregar Usuario "),
-                  _c("i", { staticClass: "fas fa-user-plus" })
-                ]
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body table-responsive p-0" }, [
-            _c("table", { staticClass: "table table-hover" }, [
-              _c("thead", [
-                _c("tr", [
-                  _c("th", [_vm._v("ID")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Nombre Compl.")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("DNI")]),
-                  _vm._v(" "),
-                  _c("th", [_vm._v("Opciones")])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [_vm._v("183")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("John Doe")]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v("11-7-2014")]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { title: "Editar", href: "#" } }, [
-                      _c("i", { staticClass: "fa fa-edit blue" })
-                    ]),
-                    _vm._v("\n                  /\n                  "),
-                    _c("a", { attrs: { title: "Eliminar", href: "#" } }, [
-                      _c("i", { staticClass: "fa fa-trash red" })
-                    ])
-                  ])
-                ])
-              ])
-            ])
-          ])
-        ])
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("ID")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Nombre Compl.")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("DNI")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Fec.Registro")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Opciones")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("a", { attrs: { title: "Editar", href: "#" } }, [
+        _c("i", { staticClass: "fa fa-edit blue" })
+      ]),
+      _vm._v("\n                  /\n                  "),
+      _c("a", { attrs: { title: "Eliminar", href: "#" } }, [
+        _c("i", { staticClass: "fa fa-trash red" })
       ])
     ])
   },
@@ -54380,27 +54432,6 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("label", [
       _c("span", { staticClass: "label-text" }, [_vm._v("Apellido Materno:")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-footer" }, [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button", "data-dismiss": "modal" }
-        },
-        [_vm._v("\n              Cerrar\n            ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
-        { staticClass: "btn btn-primary", attrs: { type: "button" } },
-        [_vm._v("Guardar")]
-      )
     ])
   }
 ]

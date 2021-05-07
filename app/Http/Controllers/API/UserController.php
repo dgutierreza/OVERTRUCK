@@ -4,6 +4,9 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserCreateRequest;
+use App\User;
+use DB;
 
 class UserController extends Controller
 {
@@ -20,7 +23,11 @@ class UserController extends Controller
 
     public function index()
     {
-        //
+        return User::select('users.id','users.dni',
+        DB::raw("CONCAT(users.first_name, ' ', users.second_name,' ',users.first_last_name,' ',users.second_last_name) as name_complete"),'users.created_at')
+        ->latest()
+        ->take(10)
+        ->get();
     }
 
     /**
@@ -29,9 +36,21 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+        $first_name = $request['first_name'];
+        $second_name = $request['second_name'];
+        $first_last_name = $request['first_last_name'];
+        $second_last_name = $request['second_last_name'];
+         User::create([
+            'dni' => $request['dni'],
+            'first_name' => $first_name,
+            'second_name' => empty($second_name) ? '':$second_name,
+            'first_last_name' => $first_last_name,
+            'second_last_name' => $second_last_name,
+            'password' => $request['dni'],
+        ]);
+        return ['message' => 'AGREGADO'];
     }
 
     /**

@@ -10,7 +10,7 @@
               <button
                 class="btn btn-success"
                 data-toggle="modal"
-                data-target="#addNew"
+                data-target="#addNew" @click="newModal"
               >
                 Agregar Usuario <i class="fas fa-user-plus"></i>
               </button>
@@ -24,14 +24,16 @@
                   <th>ID</th>
                   <th>Nombre Compl.</th>
                   <th>DNI</th>
+                  <th>Fec.Registro</th>
                   <th>Opciones</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
+                <tr v-for="user in users" :key="user.id">
+                  <td>{{user.id}}</td>
+                  <td>{{user.name_complete}}</td>
+                  <td>{{user.dni}}</td>
+                  <td>{{user.created_at}}</td>
                   <td>
                     <a title="Editar" href="#">
                       <i class="fa fa-edit blue"></i>
@@ -73,7 +75,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form @submit.prevent="createUser()">
+          <form id="form_add_user">
             <div class="modal-body">
               <div class="form-group">
                 <label> <span class="label-text">DNI:</span></label>
@@ -143,7 +145,7 @@
               <button type="button" class="btn btn-danger" data-dismiss="modal">
                 Cerrar
               </button>
-              <button type="button" class="btn btn-primary">Guardar</button>
+              <button type="button" @click="createUser()" class="btn btn-primary">Guardar</button>
             </div>
           </form>
         </div>
@@ -157,6 +159,7 @@ export default {
   data() {
     return {
       dni: "",
+      users:{},
       form: new Form({
         id: "",
         first_name: "",
@@ -168,26 +171,35 @@ export default {
     };
   },
   methods: {
+    loadUsers()
+          {
+            axios.get("api/users").then(({ data }) => (this.users = data));
+          },
+    newModal(){
+                $("#form_add_user").find('.is-invalid').removeClass("is-invalid");
+                this.dni = '';  
+                this.form.reset();
+            },
     searchDni() {
       axios
         .get("api/search-dni/" + this.dni)
         .then(({ data }) => {
           console.log(data);
           var names = data.nombres.toLowerCase().split(" ", 3);
-          var first_last_name = data.apellidoPaterno.toLowerCase();
-          var second_last_name = data.apellidoMaterno.toLowerCase();
+          var first_last_name = this.$parent.firstUpperCase(data.apellidoPaterno.toLowerCase());
+          var second_last_name = this.$parent.firstUpperCase(data.apellidoMaterno.toLowerCase());
           if(names.length == 3){
-                var first_name  = names[0];  
-                var second_name  = names[1];
-                var third_name  = names[2];
-                var seconds_name = second_name+' '+third_name; 
+                var first_name  = this.$parent.firstUpperCase(names[0]);  
+                var second_name  =  this.$parent.firstUpperCase(names[1]);
+                var third_name  =  this.$parent.firstUpperCase(names[2]);
+                var seconds_name =  this.$parent.firstUpperCase(second_name+' '+third_name); 
                 }
           if(names.length == 2){
-                var first_name  = names[0];  
-                var seconds_name  = names[1];
+                var first_name  = this.$parent.firstUpperCase(names[0]);  
+                var seconds_name  = this.$parent.firstUpperCase(names[1]);
                 }
           if(names.length == 1){
-                var first_name  = names[0];  
+                var first_name  = this.$parent.firstUpperCase(names[0]);
                 var seconds_name  = '';
                 }
                
@@ -196,10 +208,23 @@ export default {
                 this.form.first_last_name = first_last_name;
                 this.form.second_last_name = second_last_name;
                 this.form.dni = data.dni;
-                
         })
         
     },
+    createUser(){
+      this.form.post('api/users')
+            .then(()=>{
+              this.dni = '';  
+              this.form.reset();
+              $('#addNew').modal('hide');
+            })
+              .catch(()=>{
+
+              })
+    }
+  },
+  created(){
+    this.loadUsers();
   },
   mounted() {
     console.log("Component mounted.");

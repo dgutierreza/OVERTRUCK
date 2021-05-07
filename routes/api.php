@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 Route::get('search-dni/{dni}','API\UserController@search_dni');
-Route::get('users','API\UserController@index');
+Route::apiResources(['users' => 'API\UserController']);
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

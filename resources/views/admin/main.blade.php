@@ -69,30 +69,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+               
+
+          <li class="nav-item">
+              <router-link to="/list-user" class="nav-link">
               <i class="nav-icon fas fa-users orange"></i>
               <p>
                 Usuarios
-                <i class="fas fa-angle-left right"></i>
               </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-              <router-link to="/add-user" class="nav-link">
-                <i class="nav-icon fas fa-plus"></i>
-                  <p>Agregar</p>
-                  </router-link>
-              </li>
-              <li class="nav-item">
-              <router-link to="/list-user" class="nav-link">
-                <i class="fas fa-list-ul nav-icon"></i>
-                  <p>Lista</p>
-                  </router-link>
-                </a>
-              </li>
-            </ul>
+            </router-link>
           </li>
         </ul>
       </nav>
