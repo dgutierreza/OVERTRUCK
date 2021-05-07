@@ -181,8 +181,8 @@ export default {
                 this.form.reset();
             },
     searchDni() {
-      axios
-        .get("api/search-dni/" + this.dni)
+        this.$Progress.start();
+        axios.get("api/search-dni/" + this.dni)
         .then(({ data }) => {
           console.log(data);
           var names = data.nombres.toLowerCase().split(" ", 3);
@@ -208,7 +208,11 @@ export default {
                 this.form.first_last_name = first_last_name;
                 this.form.second_last_name = second_last_name;
                 this.form.dni = data.dni;
-        })
+                this.$Progress.finish();
+        }).catch(() => {
+                    //Swal.fire('Dni Incorrecto!','Verifique que el DNI contenga 8 dígitos','warning')
+                    this.$Progress.fail();
+                })
         
     },
     createUser(){

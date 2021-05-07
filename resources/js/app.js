@@ -20,6 +20,15 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter)
 /** END VUE ROUTER */
 
+/** VUE PROGRESS BAR */
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '4px',
+  })
+/** END VUE PROGRESS BAR */  
+
 
 /** VUE ROUTER LINKS */
 let routes = [
