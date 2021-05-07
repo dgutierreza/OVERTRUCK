@@ -218,6 +218,10 @@ export default {
     createUser(){
       this.form.post('api/users')
             .then(()=>{
+            Fire.$emit('AfterCreate');
+            Toast.fire({
+            icon: 'success',
+            title: 'Usuario creado correctamente'})
               this.dni = '';  
               this.form.reset();
               $('#addNew').modal('hide');
@@ -229,6 +233,9 @@ export default {
   },
   created(){
     this.loadUsers();
+    Fire.$on('AfterCreate',() => {
+               this.loadUsers();
+           });
   },
   mounted() {
     console.log("Component mounted.");
