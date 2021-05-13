@@ -35,8 +35,8 @@
                   <td>{{user.dni}}</td>
                   <td>{{user.created_at}}</td>
                   <td>
-                    <a title="Editar" href="#">
-                      <i class="fa fa-edit blue"></i>
+                    <a title="Información" href="#" >
+                             <router-link :to="{name: 'user',params: {id: user.id}}"><i class="fa fa-info-circle orange"></i></router-link>
                     </a>
                     /
                     <a title="Eliminar" href="#">

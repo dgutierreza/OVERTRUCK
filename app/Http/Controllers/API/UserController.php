@@ -50,7 +50,7 @@ class UserController extends Controller
             'second_last_name' => $second_last_name,
             'password' => $request['dni'],
         ]);
-        return ['message' => 'AGREGADO'];
+        return ['message' => 'USUARIO AGREGADO'];
     }
 
     /**
@@ -61,7 +61,13 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::select('users.id','users.dni',
+        DB::raw("CONCAT(users.first_name, ' ', users.second_name,' ',users.first_last_name,' ',users.second_last_name) as name_complete"),'users.created_at')
+        ->where('users.id',$id)
+        ->whereNull('users.deleted_at')
+        ->get();
+        
+        return $user;
     }
 
     /**

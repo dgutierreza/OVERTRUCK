@@ -12,8 +12,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
   <title>AdminLTE 3 | Starter</title>
-
-  <link rel="stylesheet" href="css/app.css">
+  {!!Html::style('css/app.css')!!}
  
 </head>
 <body class="hold-transition sidebar-mini">
@@ -47,8 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="dist/img/Logo.png" alt="SUPER ADMIN" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
+      {!!Html::image('dist/img/Logo.png','SUPER ADMIN', array('class' => 'brand-image img-circle elevation-3','style'=>"opacity: .8"))!!} 
       <span class="brand-text font-weight-light">SUPER ADMIN</span>
     </a>
 
@@ -57,7 +55,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/profile.png" class="img-circle elevation-2" alt="User Image">
+          {!!Html::image('dist/img/profile.png','USER PROFILE ADMIN', array('class' => 'img-circle elevation-2'))!!} 
         </div>
         <div class="info">
           <a href="#" class="d-block">Alexander Pierce</a>
@@ -79,6 +77,34 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </router-link>
           </li>
+
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-book yellow"></i>
+              <p>
+                Mantenedores
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+              <router-link to="/list-areas" class="nav-link">
+                <i class="nav-icon fas fa-address-book"></i>
+                  <p>Áreas</p>
+                  </router-link>
+              </li>
+
+           
+              <li class="nav-item">
+              <router-link to="/list-areasroles" class="nav-link">
+                <i class="fas fa-user-tie nav-icon"></i>
+                  <p>Roles en Área</p>
+                  </router-link>
+                </a>
+              </li>              
+            </ul>
+          </li>
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
@@ -126,7 +152,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
-
-<script src="js/app.js"></script>
+{!!Html::script('js/app.js')!!}
 </body>
 </html>
