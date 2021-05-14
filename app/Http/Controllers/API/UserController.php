@@ -92,4 +92,10 @@ class UserController extends Controller
     {
         //
     }
+
+    public function select_sexs()
+    {
+        $data = array(['id' => null,'name' => 'Seleccione una Opción'],['id' =>'M','name' => 'Masculino'],['id' =>'F','name' => 'Femenino']);     
+        return response()->json(['sexs'=>$data]); 
+    }
 }

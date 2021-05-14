@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 */
 Route::get('search-dni/{dni}','API\UserController@search_dni');
 Route::apiResources(['users' => 'API\UserController']);
+Route::get('/select-sexs','API\UserController@select_sexs');
 Route::apiResources(['areas' => 'API\AreasController']);
 Route::apiResources(['areas_roles' => 'API\AreasRolesController']);
 Route::get('/select-areas','API\AreasController@select_areas');
