@@ -51,7 +51,8 @@ Vue.use(VueProgressBar, {
 
 /** VUE ROUTER LINKS */
 let routes = [
-    { path: '/user/:id',name:'user', component: require('./users/User-detail.vue')},
+    { path: '/user/:id',name:'user', component: require('./users/User-detail.vue'),props: true},
+    { path: '/tab-user-data',name:'TabUserdata', component: require('./users/TabUserdata.vue')},
     { path: '/list-user', component: require('./users/Users.vue')},
     { path: '/list-areas', component: require('./areas/Areas.vue') },
     { path: '/list-areasroles', component: require('./roles/AreasRoles.vue') },

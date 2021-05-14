@@ -14577,7 +14577,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(14);
-module.exports = __webpack_require__(61);
+module.exports = __webpack_require__(63);
 
 
 /***/ }),
@@ -14644,7 +14644,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_3_vue_progressbar___default.a, {
 /** END VUE PROGRESS BAR */
 
 /** VUE ROUTER LINKS */
-var routes = [{ path: '/user/:id', name: 'user', component: __webpack_require__(45) }, { path: '/list-user', component: __webpack_require__(48) }, { path: '/list-areas', component: __webpack_require__(51) }, { path: '/list-areasroles', component: __webpack_require__(54) }, { path: '*', component: __webpack_require__(57) }];
+var routes = [{ path: '/user/:id', name: 'user', component: __webpack_require__(45), props: true }, { path: '/tab-user-data', name: 'TabUserdata', component: __webpack_require__(80) }, { path: '/list-user', component: __webpack_require__(50) }, { path: '/list-areas', component: __webpack_require__(53) }, { path: '/list-areasroles', component: __webpack_require__(56) }, { path: '*', component: __webpack_require__(59) }];
 var router = new __WEBPACK_IMPORTED_MODULE_2_vue_router__["a" /* default */]({
   mode: 'history',
   routes: routes // short for `routes: routes`
@@ -14657,7 +14657,7 @@ window.Fire = new Vue();
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', __webpack_require__(58));
+Vue.component('example-component', __webpack_require__(60));
 
 var app = new Vue({
   el: '#app',
@@ -57362,17 +57362,8 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TabUserdata_vue__ = __webpack_require__(80);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__TabUserdata_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__TabUserdata_vue__);
 //
 //
 //
@@ -57512,11 +57503,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             user: {}
         };
+    },
+    components: {
+        TabUserdata: __WEBPACK_IMPORTED_MODULE_0__TabUserdata_vue___default.a
     },
     beforeRouteEnter: function beforeRouteEnter(to, _from, next) {
         axios.get('/api/users/' + to.params.id).then(function (data) {
@@ -57588,7 +57584,48 @@ var render = function() {
             _vm._m(6)
           ]),
           _vm._v(" "),
-          _vm._m(7)
+          _c("div", { staticClass: "col-md-9" }, [
+            _c("div", { staticClass: "card" }, [
+              _vm._m(7),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c(
+                  "div",
+                  { staticClass: "tab-content" },
+                  [
+                    _c("TabUserdata"),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "tab-pane", attrs: { id: "docs" } },
+                      [_vm._v("\n                AQUI VA docs\n              ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "tab-pane", attrs: { id: "contracts" } },
+                      [
+                        _vm._v(
+                          "\n                AQUI VA contratos\n              "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "tab-pane", attrs: { id: "holidays" } },
+                      [
+                        _vm._v(
+                          "\n                AQUI VA vacaciones\n              "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          ])
         ])
       ])
     ])
@@ -57740,152 +57777,50 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col-md-9" }, [
-      _c("div", { staticClass: "card" }, [
-        _c("div", { staticClass: "card-header p-2" }, [
-          _c("ul", { staticClass: "nav nav-pills" }, [
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link active",
-                  attrs: { href: "#personal", "data-toggle": "tab" }
-                },
-                [_vm._v("Datos Personales")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#docs", "data-toggle": "tab" }
-                },
-                [_vm._v("Documentos")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#holidays", "data-toggle": "tab" }
-                },
-                [_vm._v("Vacaciones")]
-              )
-            ])
-          ])
+    return _c("div", { staticClass: "card-header p-2" }, [
+      _c("ul", { staticClass: "nav nav-pills" }, [
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link active",
+              attrs: { href: "#personal", "data-toggle": "tab" }
+            },
+            [_vm._v("Datos Personales")]
+          )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "card-body" }, [
-          _c("div", { staticClass: "tab-content" }, [
-            _c(
-              "div",
-              { staticClass: "tab-pane active", attrs: { id: "personal" } },
-              [
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-user-edit" }),
-                  _vm._v(" Sexo:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-user-edit" }),
-                  _vm._v(" Estado Civil:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-child" }),
-                  _vm._v(" Num. Hijos:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-birthday-cake" }),
-                  _vm._v(" Fecha Nacimiento:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-envelope" }),
-                  _vm._v(" Correo Empresa:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-envelope" }),
-                  _vm._v(" Correo Personal:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-phone" }),
-                  _vm._v(" Celular Principal:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-phone" }),
-                  _vm._v(" Celular Secundario:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-phone" }),
-                  _vm._v(" Celular Trabajo:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
-                  _vm._v(" Dirección Casa:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
-                  _vm._v(" Dirección Dni:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-credit-card" }),
-                  _vm._v(" N° cuenta Sueldo:")
-                ]),
-                _vm._v(" - "),
-                _c("br"),
-                _vm._v(" "),
-                _c("strong", [
-                  _c("i", { staticClass: "fas fa-credit-card" }),
-                  _vm._v(" N° cuenta CTS:")
-                ]),
-                _vm._v(" - "),
-                _c("br")
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "tab-pane", attrs: { id: "docs" } }, [
-              _vm._v("\n                AQUI VA docs\n              ")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "tab-pane", attrs: { id: "holidays" } }, [
-              _vm._v("\n                AQUI VA vacaciones\n              ")
-            ])
-          ])
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { href: "#docs", "data-toggle": "tab" }
+            },
+            [_vm._v("Documentos")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { href: "#contracts", "data-toggle": "tab" }
+            },
+            [_vm._v("Contratos")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "nav-item" }, [
+          _c(
+            "a",
+            {
+              staticClass: "nav-link",
+              attrs: { href: "#holidays", "data-toggle": "tab" }
+            },
+            [_vm._v("Vacaciones")]
+          )
         ])
       ])
     ])
@@ -57901,15 +57836,17 @@ if (false) {
 }
 
 /***/ }),
-/* 48 */
+/* 48 */,
+/* 49 */,
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(49)
+var __vue_script__ = __webpack_require__(51)
 /* template */
-var __vue_template__ = __webpack_require__(50)
+var __vue_template__ = __webpack_require__(52)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -57948,7 +57885,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 49 */
+/* 51 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58205,7 +58142,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 50 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -58633,15 +58570,15 @@ if (false) {
 }
 
 /***/ }),
-/* 51 */
+/* 53 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(52)
+var __vue_script__ = __webpack_require__(54)
 /* template */
-var __vue_template__ = __webpack_require__(53)
+var __vue_template__ = __webpack_require__(55)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -58680,7 +58617,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 52 */
+/* 54 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58920,7 +58857,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 53 */
+/* 55 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -59268,15 +59205,15 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(55)
+var __vue_script__ = __webpack_require__(57)
 /* template */
-var __vue_template__ = __webpack_require__(56)
+var __vue_template__ = __webpack_require__(58)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -59315,7 +59252,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 55 */
+/* 57 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59536,7 +59473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 56 */
+/* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -59999,7 +59936,7 @@ if (false) {
 }
 
 /***/ }),
-/* 57 */
+/* 59 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var normalizeComponent = __webpack_require__(1)
@@ -60029,15 +59966,15 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 58 */
+/* 60 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(59)
+var __vue_script__ = __webpack_require__(61)
 /* template */
-var __vue_template__ = __webpack_require__(60)
+var __vue_template__ = __webpack_require__(62)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -60076,7 +60013,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 59 */
+/* 61 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -60105,7 +60042,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 60 */
+/* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -60148,10 +60085,229 @@ if (false) {
 }
 
 /***/ }),
-/* 61 */
+/* 63 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */,
+/* 72 */,
+/* 73 */,
+/* 74 */,
+/* 75 */,
+/* 76 */,
+/* 77 */,
+/* 78 */,
+/* 79 */,
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(82)
+/* template */
+var __vue_template__ = __webpack_require__(81)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/users/TabUserdata.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b8fd1216", Component.options)
+  } else {
+    hotAPI.reload("data-v-b8fd1216", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "tab-pane active", attrs: { id: "personal" } },
+      [
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-user-edit" }),
+          _vm._v(" Sexo:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-user-edit" }),
+          _vm._v(" Estado Civil:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-child" }),
+          _vm._v(" Num. Hijos:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-birthday-cake" }),
+          _vm._v(" Fecha Nacimiento:")
+        ]),
+        _vm._v(" -\n  "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-envelope" }),
+          _vm._v(" Correo Empresa:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-envelope" }),
+          _vm._v(" Correo Personal:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-phone" }),
+          _vm._v(" Celular Principal:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-phone" }),
+          _vm._v(" Celular Secundario:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-phone" }),
+          _vm._v(" Celular Trabajo:")
+        ]),
+        _vm._v(" - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
+          _vm._v(" Dirección Casa:")
+        ]),
+        _vm._v("\n  - "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-map-marker-alt mr-1" }),
+          _vm._v(" Dirección Dni:")
+        ]),
+        _vm._v(" -\n  "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-credit-card" }),
+          _vm._v(" N° cuenta Sueldo:")
+        ]),
+        _vm._v(" -\n  "),
+        _c("br"),
+        _vm._v(" "),
+        _c("strong", [
+          _c("i", { staticClass: "fas fa-credit-card" }),
+          _vm._v(" N° cuenta CTS:")
+        ]),
+        _vm._v(" - "),
+        _c("br")
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-b8fd1216", module.exports)
+  }
+}
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  mounted: function mounted() {
+    console.log('datos', this.$parent.user);
+  }
+});
 
 /***/ })
 /******/ ]);
