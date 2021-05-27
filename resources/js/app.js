@@ -53,6 +53,7 @@ Vue.use(VueProgressBar, {
 let routes = [
     { path: '/user/:id',name:'user', component: require('./users/User-detail.vue'),props: true},
     { path: '/tab-user-data',name:'TabUserdata', component: require('./users/TabUserdata.vue')},
+    { path: '/tab-user-salary',name:'TabSalary', component: require('./users/TabSalary.vue')},
     { path: '/list-user', component: require('./users/Users.vue')},
     { path: '/list-areas', component: require('./areas/Areas.vue') },
     { path: '/list-areasroles', component: require('./roles/AreasRoles.vue') },
@@ -72,9 +73,19 @@ window.Fire =  new Vue();
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
+import DatePicker from 'vue2-datepicker';
+Vue.use(DatePicker)
+
+import {es} from 'vue2-datepicker/locale/es';
+import 'vue2-datepicker/index.css';
+
 const app = new Vue({
     el: '#app',
     router,
+    data:{
+      es:es
+    },
+    components: { DatePicker },
     methods:{
       firstUpperCase(string){
         return string.charAt(0).toUpperCase() + string.slice(1);

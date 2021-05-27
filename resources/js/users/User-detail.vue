@@ -60,26 +60,14 @@
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
                   <li class="nav-item"><a class="nav-link active" href="#personal" data-toggle="tab">Datos Personales</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#docs" data-toggle="tab">Documentos</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#contracts" data-toggle="tab">Contratos</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#holidays" data-toggle="tab">Vacaciones</a></li>
+                 
+                  <li class="nav-item"><a class="nav-link" href="#salary" data-toggle="tab">Cuentas</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content">
-                  <TabUserdata/>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="docs">
-                    AQUI VA docs
-                  </div>
-                  <!-- /.tab-pane -->
-                  <div class="tab-pane" id="contracts">
-                    AQUI VA contratos
-                  </div>
-                  <div class="tab-pane" id="holidays">
-                    AQUI VA vacaciones
-                  </div>
-                  <!-- /.tab-pane -->
+                  <TabUserdata @reloadUser='reloadUserParent'/>
+                  <TabSalary/>
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
@@ -97,24 +85,43 @@
 
 <script>
 import TabUserdata from './TabUserdata.vue';
+import TabSalary from './TabSalary.vue';
 
     export default {
         data: () => ({
         user: {},
+        userDetail:{},
     }),
     components: {
-          TabUserdata
+          TabUserdata,
+          TabSalary
+        },
+    mounted() {
+            console.log('Component mounted.')
+        },
+    created(){
+          
+        },
+        methods:{
+          
+          reloadUserParent(id){
+           axios.get ('/api/users/' + id).then ((data) => {
+             this.userDetail=data.data.user_detail[0];
+          });
+          }
         },
     beforeRouteEnter (to, _from, next) {
-        axios
-        .get ('/api/users/' + to.params.id).then ((data) => {
+        axios.get ('/api/users/' + to.params.id).then ((data) => {
             next ((vm) => {
-                vm.user = data.data[0];
+                vm.user = data.data.user[0];
+                if(data.data.user_detail!=null)
+                {
+                  vm.userDetail=data.data.user_detail[0];
+                }
+                                
             });
         });
-    },
-        mounted() {
-            console.log('Component mounted.')
-        }
+    }
+        
     }
 </script>

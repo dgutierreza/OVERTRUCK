@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserCreateRequest;
 use App\User;
+use App\Models\UserDetail;
 use DB;
 
 class UserController extends Controller
@@ -66,8 +67,17 @@ class UserController extends Controller
         ->where('users.id',$id)
         ->whereNull('users.deleted_at')
         ->get();
-        
-        return $user;
+
+        $pre_user_detail = UserDetail::where('users_detail.id_user', '=', $id)->get();
+        /*if($pre_user_detail->isEmpty()){
+            UserDetail::create([
+                'id_user' => $id,
+            ]);
+        }
+        $user_detail = UserDetail::where('users_detail.id_user', '=', $id)->get();*/
+
+        $user_detail = $pre_user_detail->isEmpty() ? null:$pre_user_detail;
+        return ['user'=> $user,'user_detail'=>$user_detail];
     }
 
     /**
@@ -97,5 +107,11 @@ class UserController extends Controller
     {
         $data = array(['id' => null,'name' => 'Seleccione una Opción'],['id' =>'M','name' => 'Masculino'],['id' =>'F','name' => 'Femenino']);     
         return response()->json(['sexs'=>$data]); 
+    }
+    public function select_civil_status()
+    {
+        $data = array(['id' => null,'name' => 'Seleccione una Opción'],['id' =>'S','name' => 'Soltero'],['id' =>'C','name' => 'Casado'],
+        ['id' =>'D','name' => 'Divorciado'],['id' =>'V','name' => 'Viudo']);     
+        return response()->json(['status'=>$data]); 
     }
 }
