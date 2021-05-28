@@ -79,6 +79,14 @@ Vue.use(DatePicker)
 import {es} from 'vue2-datepicker/locale/es';
 import 'vue2-datepicker/index.css';
 
+import dayjs from 'dayjs';
+Vue.filter('formatDate',function(created){
+  if(created != null)
+  return dayjs(created).format("DD/MM/YYYY");
+  else
+  return 'Sin fecha';
+});
+
 const app = new Vue({
     el: '#app',
     router,

@@ -35,7 +35,7 @@
 
                 <ul class="list-group list-group-unbordered mb-3">
                   <li class="list-group-item">
-                    <b>Fec Inicio Laboral</b> <a class="float-right">{{user.created_at}}</a>
+                    <b>Fec Inicio Laboral</b> <a class="float-right">{{user.created_at | formatDate}}</a>
                   </li>
                   <li class="list-group-item">
                     <b>Dias Trabajados</b> <a class="float-right">543</a>

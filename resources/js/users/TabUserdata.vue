@@ -301,6 +301,8 @@
   </div>
 </template>
 <script>
+import dayjs from 'dayjs';
+
 export default {
   data() {
     return {
@@ -343,9 +345,12 @@ export default {
       this.formedit.errors.clear();
     },
     editModal() {
+      var date = dayjs(this.$parent.userDetail.date_btd, "YYYY/MM/DD")
+      console.log('fecha_nacimiento',date.$d);
       this.formedit.reset();
       $("#addNew").modal("show");
       this.formedit.fill(this.$parent.userDetail);
+      this.formedit.date_btd = date.$d;
       this.formedit.errors.clear();
     },
     createUserDetail() {
@@ -357,7 +362,7 @@ export default {
           // success
           $("#addNew").modal("hide");
           Swal.fire("Actualizado!", "Se han actualizado los datos", "success");
-          this.$emit("reloadUser", response.data.data);
+          this.$emit("reloadUser", response.data.id_user);
           this.$Progress.finish();
           Fire.$emit("AfterCreate");
         })
@@ -366,7 +371,24 @@ export default {
         });
     },
     updateUserDetail() {
-      console.log("VAMOS ACTUALIZAR");
+      this.$Progress.start();
+      this.formedit.id = this.$parent.user.id;
+      this.formedit.put("/api/users-detail/" + this.$parent.user.id)
+        .then((response) => {
+          // success
+          $("#addNew").modal("hide");
+          Swal.fire(
+            "Actualizado!",
+            "El elemento ha sido actualizado",
+            "success"
+          );
+          this.$emit("reloadUser", response.data.id_user);
+          this.$Progress.finish();
+          Fire.$emit("AfterCreate");
+        })
+        .catch(() => {
+          this.$Progress.fail();
+        });
     },
   },
   created() {
